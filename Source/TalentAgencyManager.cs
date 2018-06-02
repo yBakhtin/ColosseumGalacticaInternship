@@ -10,7 +10,7 @@ namespace Colosseum.Management {
 
         public List<HumanoidFighter> displayHumanoids = new List<HumanoidFighter>();
         
-
+        // Hire specific fighter (will be added to the inventory)
         public bool HireFighter(HumanoidFighter humanoidFighter) {
             if (InventoryManager.Instance.Moolah < humanoidFighter.price) {
                 Debug.LogWarning("not enough money to hire fighter");
@@ -33,6 +33,7 @@ namespace Colosseum.Management {
         //    Debug.Log("<color=green>TalentAgencyManager</color>: gladiator stock has been replenished");
         //}
 
+        // increase the capacity of the stock
         public bool IncreaseStockCapacity() {
             float cost = InventoryManager.Instance.Moolah - 100 * Mathf.Pow(stockCapacity, 2);
 

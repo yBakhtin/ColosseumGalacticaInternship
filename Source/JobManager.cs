@@ -110,6 +110,7 @@ namespace Colosseum.Management {
             // TEMP:!!!
         }
 
+        // Start all queued jobs
         public void StartJobs() {
             // Add usual job offers
             for (int i = jobOffers.Count - 1; i >= 0; i--) {
@@ -130,6 +131,7 @@ namespace Colosseum.Management {
             //Debug.Log("Active job count: "  +activeJobs.Count);
         }
 
+        // Perform the jobs (by turn)
         public void PerformJobs() {
             for ( int i = activeJobs.Count - 1; i >= 0; i-- ) {
                 Job job = activeJobs[i];
@@ -154,6 +156,7 @@ namespace Colosseum.Management {
 
         #region Job offer management
 
+        // Expire job offers (by turn)
         public void ExpireJobOffers() {
             for (int i = jobOffers.Count - 1; i >= 0; i--) {
                 if (jobOffers[i].progressAmount == 0)
@@ -170,6 +173,7 @@ namespace Colosseum.Management {
             }
         }
 
+        // Replenishes the job offers (if needed)
         public void ReplenishJobOffers() {
             int newJobOfferAmount = maxJobOfferAmount - (jobOffers.Count + activeJobs.Count);
             //Debug.Log("newJobOfferCount: " + newJobOfferAmount);
@@ -206,7 +210,7 @@ namespace Colosseum.Management {
         }
 
         #endregion
-
+        // assigns employee to the job
         public bool AssignEmploye(Job job, HumanoidFighter fighter) {
             if (job.employees.Count == job.requiredEmployeeAmount ||
                 fighter.activity != FighterActivity.None ||
@@ -245,6 +249,7 @@ namespace Colosseum.Management {
             return true;
         }
 
+        // cancel employee from the job (if possible)
         public bool CancelEmploye(Job job, HumanoidFighter fighter) {
             if (job.employees.Remove(fighter)) {
                 fighter.activity = FighterActivity.None;
@@ -255,6 +260,8 @@ namespace Colosseum.Management {
             return false;
         }
 
+
+        // Validate all jobs employees state
         public void ValidateOccupiedFighters() {
             for (int i = 0; i < jobOffers.Count; i++) {
                 for (int j = jobOffers[i].employees.Count - 1; j >= 0; j--) {

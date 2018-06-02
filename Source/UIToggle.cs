@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace Colosseum.UI {
+    // represents toggle ui graphic element
     public class UIToggle : Selectable, IPointerClickHandler, ISubmitHandler, ICanvasElement {
         [SerializeField] private List<Graphic> onStateGraphics;
         [SerializeField] private List<Graphic> offStateGraphics;
@@ -14,6 +15,7 @@ namespace Colosseum.UI {
         [SerializeField] private bool allowSwitchOff = true;
         [Space, SerializeField] private ToggleEvent onStateChanged = new ToggleEvent();
 
+        // is toggle on?
         public bool IsOn {
             get {
                 return isOn;
@@ -22,11 +24,15 @@ namespace Colosseum.UI {
                 ChangeState(value);
             }
         }
+        // is toggle initally on?
         public bool InitialIsOn { get; private set; }
+        // the toggle group associated with toggle (can be null)
         public UIToggleGroup ToggleGroup { get { return toggleGroup; } }
+        // event is fired when the state of the toggle is changed
         public ToggleEvent OnStateChanged { get { return onStateChanged; } }
 
 
+        // Click events
         public void OnPointerClick(PointerEventData eventData) {
             if (eventData.button != PointerEventData.InputButton.Left)
                 return;
@@ -38,18 +44,20 @@ namespace Colosseum.UI {
             ChangeState(!isOn);
         }
 
+        // submit events
         public virtual void OnSubmit(BaseEventData eventData) {
             ChangeState(!isOn); // Not sure if this is correct
         }
-
+        // Layout group events
         public void LayoutComplete() {
             // Objects are destroyed at this moment
         }
 
+        // Graphic update events
         public void GraphicUpdateComplete() {
             ChangeGraphicalState(isOn);
         }
-
+        // When canvas is about to rebuld
         public virtual void Rebuild(CanvasUpdate executing) {
 #if UNITY_EDITOR
             if (executing == CanvasUpdate.Prelayout)
@@ -89,6 +97,7 @@ namespace Colosseum.UI {
             ChangeGraphicalState(false);
         }
 
+        // Change the state of toggle
         private void ChangeState(bool value) {
             if (!IsActive() || !IsInteractable())
                 return;
@@ -107,6 +116,7 @@ namespace Colosseum.UI {
                 onStateChanged.Invoke(isOn);
         }
 
+        // Chnage only graphical state of toggle
         private void ChangeGraphicalState(bool enabled) {
             for (int i = 0; i < onStateGraphics.Count; i++)
                 onStateGraphics[i].enabled = enabled;

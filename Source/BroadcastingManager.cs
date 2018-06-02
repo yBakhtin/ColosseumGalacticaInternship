@@ -32,6 +32,7 @@ namespace Colosseum.Management {
             "Abandoned sector with few residents living in, but has lots of recources"
         };
 
+        // The cost that is used for unlocking the sector
         public float UnlockCost { get { return unlockedSectorAmount * goldMultiplier + 1000; } }
 
         // Verify that any requirements are met before purchasing a sector
@@ -44,6 +45,7 @@ namespace Colosseum.Management {
             return result;
         }
 
+        // Unlock the given sector
         public bool UnlockSector(Sector sector) {
             unlockedSectorAmount++;
             InventoryManager.Instance.ModifyMoolah(-UnlockCost);
@@ -51,6 +53,7 @@ namespace Colosseum.Management {
             return true;
         }
 
+        // Get population density of all sectors
         public float GetAllPopulationDensity() {
             float populationDensity = 0;
 
@@ -68,7 +71,8 @@ namespace Colosseum.Management {
 
             return populationDensity;
         }
-
+        
+        // Generates the sectors
         public void GenerateSectors() {
             sectors = new Sector[maxSectorAmount]; // TODO: Can be moved to global ctor initialization
             for ( int i = 0; i < maxSectorAmount; i++ ) {

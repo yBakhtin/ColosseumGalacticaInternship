@@ -11,7 +11,7 @@ namespace Colosseum.Management {
             get { return GameManager.Instance.content.loans; }
         }
 
-
+        // Acquire given loan and pay the debt
         public bool AcquireLoan(Loan loan) {
             loanOffers.Remove(loan);
             InventoryManager.Instance.ModifyMoolah(loan.debt);
@@ -19,6 +19,7 @@ namespace Colosseum.Management {
             return true;
         }
 
+        // Adds loan offer
         public bool AddLoanOffer(LoanType loanType) {
             if (loanOffers.Count == maxLoanCapacity)
                 return false;
@@ -38,6 +39,7 @@ namespace Colosseum.Management {
             return true;
         }
         
+        // Pays off the loan
         public bool PayOff(Loan loan) {
             if (InventoryManager.Instance.Moolah < loan.debt) {
                 Debug.Log("<color=green>LoanManager: Cannot pay off the loan! Not enough gold!</color>");

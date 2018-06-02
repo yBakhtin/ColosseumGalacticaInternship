@@ -17,16 +17,19 @@ namespace Colosseum.UI {
         //    }
         //}
 
+        // Registers given toggle for handling
         public void RegisterToggle(UIToggle toggle) {
             if (!toggles.Contains(toggle))
                 toggles.Add(toggle);
         }
 
+        // Toggle will not be handled by this toggle group anymore
         public void UnregisterToggle(UIToggle toggle) {
             if (toggles.Contains(toggle))
                 toggles.Remove(toggle);
         }
 
+        // Notify the toggle group about the toggle state change
         public void NotifyToggleStateChanged(UIToggle toggle, bool value) {
             if (isBusy)
                 return;

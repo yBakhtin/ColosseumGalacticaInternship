@@ -36,6 +36,7 @@ namespace Colosseum.UI {
         /// </summary>
         public SlotState State { get { return state; } }
 
+        // Assign content to the slot
         public bool Assign(SlotContent content) {
             if (state == SlotState.Locked)
                 return false;
@@ -48,6 +49,7 @@ namespace Colosseum.UI {
             return true;
         }
 
+        // Refersh the slot
         public void Refresh() {
             if (state == SlotState.Empty) {
                 if (image.enabled)
@@ -67,6 +69,7 @@ namespace Colosseum.UI {
             }
         }
 
+        // Remove all content from the slot
         public void Clear() {
             Content = null;
             image.sprite = null;
@@ -75,6 +78,7 @@ namespace Colosseum.UI {
             Refresh();
         }
 
+        // Lock the slot
         public void Lock() {
             if (state == SlotState.Filled)
                 Clear();
@@ -83,12 +87,14 @@ namespace Colosseum.UI {
             Refresh();
         }
 
+        // Unlock the slot
         public void Unlock() {
             state = SlotState.Empty;
             image.sprite = null;
             Refresh();
         }
 
+        // Click handling
         public void OnPointerClick(PointerEventData eventData) {
             if (state == SlotState.Locked || !isInteractable)
                 return;
@@ -100,9 +106,11 @@ namespace Colosseum.UI {
                 onRightPointerClick.Invoke(this);
         }
 
+        // Click handling
         public void OnPointerDown(PointerEventData eventData) {
         }
 
+        // Click handling
         public void OnPointerUp(PointerEventData eventData) {
         }
 

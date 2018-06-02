@@ -6,10 +6,11 @@ using UnityEngine.Events;
 
 namespace Colosseum.UI {
     public class Foldout : Selectable, IPointerClickHandler {
-        public RectTransform content;
-        public bool isFolded;
-        public UnityEvent onFolded;
+        public RectTransform content; // the content of the foldout
+        public bool isFolded; // is content folded?
+        public UnityEvent onFolded; // on fold event
 
+        // Is content folded?
         public bool IsFolded {
             get {
                 return isFolded;

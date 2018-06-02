@@ -5,13 +5,13 @@ using Colosseum.Match;
 
 namespace Colosseum.Prototypes.AI {
     public class AIAction {
-        public string name;
-        public float cost;
-        public bool isAborted;
-        public Dictionary<string, object> effects = new Dictionary<string, object>();
-        public Dictionary<string, object> preconditions = new Dictionary<string, object>();
-        public List<System.Func<bool>> procedualPreconditions;
-        public IEnumerator action;
+        public string name; // the name of the action
+        public float cost; // the cost of the action at which the agent will determine whether not or use the action
+        public bool isAborted; // is the action aborted
+        public Dictionary<string, object> effects = new Dictionary<string, object>(); // effects of the action (used for planning)
+        public Dictionary<string, object> preconditions = new Dictionary<string, object>(); // preconditions of the action (used for planning)
+        public List<System.Func<bool>> procedualPreconditions; // procedural preconditions of the actions
+        public IEnumerator action; // callback which will be exectued by the agent
     }
 
 }

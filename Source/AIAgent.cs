@@ -8,10 +8,13 @@ namespace Colosseum.Prototypes.AI {
         //private List<AIAction> availibleActions = new List<AIAction>();
         //private Coroutine currentPlan;
 
-        public Dictionary<string, object> worldState = new Dictionary<string, object>();
-        public Dictionary<string, object> goalState = new Dictionary<string, object>();
+        public Dictionary<string, object> worldState = new Dictionary<string, object>(); // the world state of the agent which is used for planning
+        public Dictionary<string, object> goalState = new Dictionary<string, object>(); // the current goal state of the agent
         //public bool IsBusy { get { return currentPlan != null; } }
 
+        /// <summary>
+        /// The agent will perform the actions step by step described in the action sequence.
+        /// </summary>
         public IEnumerator PerformActionSequence(Queue<AIAction> actionSequence) {
             Queue<AIAction> sequence = new Queue<AIAction>(actionSequence);
             bool goalReached = true;

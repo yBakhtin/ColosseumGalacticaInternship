@@ -5,13 +5,14 @@ using Colosseum.Management.UI;
 namespace Colosseum.Management {
     // FUTURE: Maybe integrate effect system in healing
 	public class ClinicManager : SingletonInstance<ClinicManager> {
-        public int level = 1;
-        public int patientCapacity = 4;
+        public int level = 1; // level of the building
+        public int patientCapacity = 4; // the max patiens that building can hold
         public int maxPatientCapacity = 9; // max slot amount
-        public float healthRecoveryAmount = 40.0F;
+        public float healthRecoveryAmount = 40.0F; // how much health will be recovered each turn
 
         [System.NonSerialized] public HumanoidFighter[] patients = new HumanoidFighter[4];
-
+        
+        // Tells How much health will be recovered based on patients amount
         public float GetTurnHealthGain() {
             float healthPerTurn = Mathf.Ceil((healthRecoveryAmount / patients.Length));
             if (healthPerTurn == Mathf.Infinity)
@@ -20,6 +21,7 @@ namespace Colosseum.Management {
             return healthPerTurn;
         }
 
+        // Add a specific patient to the clinic
         public bool AddPatient(HumanoidFighter fighter, int podIndex) {
             //if (fighter.currentHealth > 20.0f)
             //fighter.currentHealth -= 10.0F;
@@ -41,7 +43,8 @@ namespace Colosseum.Management {
 
             return true;
 		}
-
+        
+        // Remove the patient from the clinic
         public bool RemovePatient(HumanoidFighter fighter) {
             int index = System.Array.IndexOf(patients, fighter);
             if (index == -1)
@@ -53,10 +56,12 @@ namespace Colosseum.Management {
             return true;
         }
 
+        // Is given fighter a patient of the clinic
 	    public bool IsPatient(HumanoidFighter fighter) {
 	        return System.Array.Exists(patients, f => f == fighter);
 	    }
-
+        
+        // Heals the gladiators (by turn)
         public void HealPatients() {
             for (int i = patients.Length - 1; i >= 0; i--) {
                 if (patients[i] == null)
@@ -78,12 +83,14 @@ namespace Colosseum.Management {
             }
         }
 
+        // Increase capacity of the clinic
         public void IncreasePatientCapacity(int count) {
 
             // TODO: Trigger additional requirement.
             patientCapacity += count;
         }
 
+        // Let fighter consume the given drug
         public void ConsumeDrug(Drug drug, HumanoidFighter fighter) {
             drug.Consume(fighter);
             InventoryManager.Instance.ownDrugs.Remove(drug);
@@ -119,7 +126,8 @@ namespace Colosseum.Management {
         //    }
         //    //
         //}
-
+        
+        // Validate the state of all patients of the clinic
         public void ValidateOccupiedFighters() {
             for (int i = patients.Length - 1; i >= 0; i--) {
                 if (!InventoryManager.Instance.ownHumanoids.Contains(patients[i])) {

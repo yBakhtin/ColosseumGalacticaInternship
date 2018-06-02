@@ -5,15 +5,15 @@ using Colosseum.Management.UI;
 
 namespace Colosseum.Management {
 	public class GymManager : SingletonInstance<GymManager> {
-        public int roomCapacity = 5;
-        public int maxTrainingRoomAmount;
-        public int hireCost = 500;
-        public int restockCost = 100;
+        public int roomCapacity = 5; // the capacity of the rooms
+        public int maxTrainingRoomAmount; // the max room amount
+        public int hireCost = 500; // how much will it cost to hire a trainer
+        public int restockCost = 100; // how much will it cost to restock availible trainers
 
         // applicant, prospect
-        public List<Instructor> applicants = new List<Instructor>(); 
-        public List<Instructor> instructors = new List<Instructor>();
-        public List<TrainingRoom> rooms = new List<TrainingRoom>();
+        public List<Instructor> applicants = new List<Instructor>();  // the applicant trainers
+        public List<Instructor> instructors = new List<Instructor>(); // availible instructors
+        public List<TrainingRoom> rooms = new List<TrainingRoom>(); // rooms of the gym
 
         //// Wordt straks setup, moet eenmal gecald worden door het hele spel
         //protected void Awake() {
@@ -21,6 +21,7 @@ namespace Colosseum.Management {
         //    CreateDemoRoom();
         //}
 
+        // Performs the training (by turn)
         public void ExecuteTrain() {
             bool hasFighterDataChanged = false;
 
@@ -46,6 +47,7 @@ namespace Colosseum.Management {
                 UIManagementManager.Instance.RefreshInventoryView();
         }
 
+        // Is fighter buys with training?
 	    public bool IsBusyTraining(HumanoidFighter fighter) {
 	        foreach(var room in rooms)
 	            if(room.HasStudent(fighter))
@@ -72,6 +74,7 @@ namespace Colosseum.Management {
         //    instructors.Remove(instructor);
         //}
 
+        // Create rooom for instructor
         public void CreateRoom(Instructor instructor, int availiblePlaceCount, int capacity) {
             TrainingRoom room = new TrainingRoom();
             room.instructor = instructor;
@@ -80,6 +83,7 @@ namespace Colosseum.Management {
             rooms.Add(room);
         }
 
+        // Add student to the given room
         public Student AddStudent(TrainingRoom room, HumanoidFighter fighter) {
             if (room.HasStudent(fighter))
                 return null;
@@ -94,11 +98,13 @@ namespace Colosseum.Management {
             return student;
         }
 
+        // Remove student for a room
         public void RemoveStudent(TrainingRoom room, Student student) {
             room.Remove(student);
         }
-	    
-	    public void RemoveStudent(Fighter student) {
+
+        // See RemoveStudent(TrainingRoom room, Student student)
+        public void RemoveStudent(Fighter student) {
 	        foreach(var room in rooms) {
 	            foreach(var roomStudent in room.students) {
 	                if(roomStudent.fighter == student) {
@@ -109,6 +115,7 @@ namespace Colosseum.Management {
 	        }
 	    }
 
+        // Validate state of all students
         public void ValidateOccupiedFighters() {
             for (int i = rooms.Count - 1; i >= 0; i--) {
                 for (int j = 0; j < rooms[i].students.Count; j++) {
